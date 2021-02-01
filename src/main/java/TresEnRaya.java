@@ -84,13 +84,13 @@ public class TresEnRaya{
         if(tablero.ganadorFilas(botones,turnoJugador) || tablero.ganadorColumnas(botones,turnoJugador) || tablero.ganadorDiagonales(botones,turnoJugador)){
             textoInformacion.setText("¡¡ HA GANADO "+turnoJugador+" !!");
             textoInformacion.setForeground(Color.GREEN);
-            deshabilitarBotones();
+            deshabilitarBotones(e);
             volverJugar.setVisible(true);
             volverJugar.setEnabled(true);
 
         }else if(tablero.empate(botones)){
             textoInformacion.setText("¡¡ EMPATE !!");
-            deshabilitarBotones();
+            deshabilitarBotones(e);
             volverJugar.setVisible(true);
             volverJugar.setEnabled(true);
         }else{
@@ -102,10 +102,11 @@ public class TresEnRaya{
 
     }
 
-    public void deshabilitarBotones(){
+    public void deshabilitarBotones(MouseEvent  e){
         for (JLabel[] fila:botones) {
             for(JLabel boton:fila){
                 boton.setEnabled(false);
+                
             }
         }
     }
