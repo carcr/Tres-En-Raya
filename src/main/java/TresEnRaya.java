@@ -4,16 +4,15 @@ import main.java.Tablero;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
-public class TresEnRaya implements ActionListener {
+public class TresEnRaya{
 
     private final JFrame ventana=new JFrame();
     private final JPanel panelInformacion=new JPanel();
     private final JLabel textoInformacion=new JLabel();
     private final Tablero tablero=new Tablero();
-    private final JButton[][] botones=new JButton[3][3];
+    private final JLabel[][] botones=new JLabel[3][3];
     private String turnoJugador="X";
     private final JButton volverJugar=new JButton("RESET");
 
@@ -56,19 +55,30 @@ public class TresEnRaya implements ActionListener {
     private void initBotones(){
         for (int i=0;i<botones.length;i++){
             for(int j=0;j<botones[i].length;j++){
-                botones[i][j]=new JButton();
+                botones[i][j]=new JLabel();
                 botones[i][j].setFont(new Font("MV Boli",Font.BOLD,60));
+                botones[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+                botones[i][j].setBackground(Color.WHITE);
+                botones[i][j].setOpaque(true);
+                botones[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+                botones[i][j].setVerticalAlignment(SwingConstants.CENTER);
                 botones[i][j].setFocusable(false);
-                botones[i][j].addActionListener(this);
+
+                botones[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        actionPerformed(e);
+                        ((JLabel) e.getSource()).removeMouseListener(this);
+                    }
+                });
                 tablero.add(botones[i][j]);
             }
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(MouseEvent  e) {
 
-        tablero.pintarEnTablero((JButton)e.getSource(),turnoJugador);
+        tablero.pintarEnTablero((JLabel)e.getSource(),turnoJugador);
 
         //CHECK GANAR
         if(tablero.ganadorFilas(botones,turnoJugador) || tablero.ganadorColumnas(botones,turnoJugador) || tablero.ganadorDiagonales(botones,turnoJugador)){
@@ -87,11 +97,14 @@ public class TresEnRaya implements ActionListener {
             cambiarJugador();
         }
 
+        System.out.println("Jugador actual ->"+turnoJugador+"\n");
+
+
     }
 
     public void deshabilitarBotones(){
-        for (JButton[] fila:botones) {
-            for(JButton boton:fila){
+        for (JLabel[] fila:botones) {
+            for(JLabel boton:fila){
                 boton.setEnabled(false);
             }
         }
@@ -107,16 +120,24 @@ public class TresEnRaya implements ActionListener {
     }
 
     public void resetJugar(){
-        for (JButton[] fila:botones) {
-            for(JButton boton:fila){
+        for (JLabel[] fila:botones) {
+            for(JLabel boton:fila){
                 boton.setEnabled(true);
                 boton.setText("");
-                boton.setBackground(null);
+                boton.setBackground(Color.WHITE);
+                boton.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        actionPerformed(e);
+                        ((JLabel) e.getSource()).removeMouseListener(this);
+                    }
+                });
             }
         }
         turnoJugador="X";
         volverJugar.setVisible(false);
         volverJugar.setEnabled(false);
+        textoInformacion.setForeground(Color.WHITE);
         textoInformacion.setText("TRES EN RAYA");
     }
 

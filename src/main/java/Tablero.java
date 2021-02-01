@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Tablero extends JPanel{
 
-    private JButton[] posicionesGanadoras;
+    private JLabel[] posicionesGanadoras;
 
     Tablero(){
         initBoard();
@@ -13,18 +13,22 @@ public class Tablero extends JPanel{
 
     private void initBoard(){
         this.setLayout(new GridLayout(3,3,0,0));
-        posicionesGanadoras=new JButton[3];
+        posicionesGanadoras=new JLabel[3];
     }
 
-    public void pintarEnTablero(JButton boton,String jugador){
+    public void pintarEnTablero(JLabel boton,String jugador){
+        UIManager.put("Label.disabledForeground",Color.BLACK);
+        boton.setEnabled(false);
         boton.setText(jugador);
+        System.out.println("Ficha puesta por ->"+jugador);
+
     }
 
-    public boolean empate(JButton[][] botones){
+    public boolean empate(JLabel[][] botones){
         boolean empate=true;
 
-        for (JButton[] fila:botones) {
-            for (JButton boton: fila) {
+        for (JLabel[] fila:botones) {
+            for (JLabel boton: fila) {
                 if (boton.getText().equals("")){
                     empate=false;
                 }
@@ -33,12 +37,12 @@ public class Tablero extends JPanel{
         return empate;
     }
 
-    public boolean ganadorFilas(JButton[][] botones,String jugador){
+    public boolean ganadorFilas(JLabel[][] botones,String jugador){
         int contadorFilas=0;
         boolean ganador=false;
 
-        for (JButton[] fila:botones) {
-            for (JButton boton: fila) {
+        for (JLabel[] fila:botones) {
+            for (JLabel boton: fila) {
                 if (boton.getText().equals(jugador)){
                     posicionesGanadoras[contadorFilas]=boton;
                     contadorFilas++;
@@ -54,7 +58,7 @@ public class Tablero extends JPanel{
         return ganador;
     }
 
-    public boolean ganadorColumnas(JButton[][] botones,String jugador){
+    public boolean ganadorColumnas(JLabel[][] botones,String jugador){
         int contadorColumnas=0;
         boolean ganador=false;
 
@@ -74,7 +78,7 @@ public class Tablero extends JPanel{
         return ganador;
     }
 
-    public boolean ganadorDiagonales(JButton[][] botones,String jugador){
+    public boolean ganadorDiagonales(JLabel[][] botones,String jugador){
         int contadorDiagonal1=0;
         int contadorDiagonal2=0;
         boolean ganador=false;
@@ -103,7 +107,7 @@ public class Tablero extends JPanel{
     }
 
     public void pintarBotonesAlGanar(){
-        for (JButton b:posicionesGanadoras) {
+        for (JLabel b:posicionesGanadoras) {
             b.setBackground(Color.GREEN);
         }
     }
