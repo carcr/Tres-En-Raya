@@ -20,8 +20,6 @@ public class Tablero extends JPanel{
         UIManager.put("Label.disabledForeground",Color.BLACK);
         boton.setEnabled(false);
         boton.setText(jugador);
-        System.out.println("Ficha puesta por ->"+jugador);
-
     }
 
     public boolean empate(JLabel[][] botones){

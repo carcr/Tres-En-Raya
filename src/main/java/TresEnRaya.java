@@ -1,7 +1,5 @@
 package main.java;
 
-import main.java.Tablero;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -58,7 +56,6 @@ public class TresEnRaya{
             }
         };
 
-
         initBotones();
 
         ventana.add(panelInformacion,BorderLayout.NORTH);
@@ -75,7 +72,6 @@ public class TresEnRaya{
                 botones[i][j].setOpaque(true);
                 botones[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                 botones[i][j].setVerticalAlignment(SwingConstants.CENTER);
-                botones[i][j].setFocusable(false);
 
                 botones[i][j].addMouseListener(myListener);
 
@@ -104,9 +100,6 @@ public class TresEnRaya{
         }else{
             cambiarJugador();
         }
-
-        System.out.println("Jugador actual ->"+turnoJugador+"\n");
-
 
     }
 
