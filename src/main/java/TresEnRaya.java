@@ -15,6 +15,8 @@ public class TresEnRaya{
     private final JLabel[][] botones=new JLabel[3][3];
     private String turnoJugador="X";
     private final JButton volverJugar=new JButton("RESET");
+    private MouseListener myListener;
+
 
     TresEnRaya(){
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,7 +47,18 @@ public class TresEnRaya{
         panelInformacion.add(volverJugar,BorderLayout.EAST);
         panelInformacion.add(textoInformacion);
 
+
         //PANEL -- BOARD
+        //Evento Click
+        myListener=new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                accionClickCelda(e);
+                ((JLabel) e.getSource()).removeMouseListener(this);
+            }
+        };
+
+
         initBotones();
 
         ventana.add(panelInformacion,BorderLayout.NORTH);
@@ -64,19 +77,14 @@ public class TresEnRaya{
                 botones[i][j].setVerticalAlignment(SwingConstants.CENTER);
                 botones[i][j].setFocusable(false);
 
-                botones[i][j].addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        actionPerformed(e);
-                        ((JLabel) e.getSource()).removeMouseListener(this);
-                    }
-                });
+                botones[i][j].addMouseListener(myListener);
+
                 tablero.add(botones[i][j]);
             }
         }
     }
 
-    public void actionPerformed(MouseEvent  e) {
+    public void accionClickCelda(MouseEvent  e) {
 
         tablero.pintarEnTablero((JLabel)e.getSource(),turnoJugador);
 
@@ -106,7 +114,7 @@ public class TresEnRaya{
         for (JLabel[] fila:botones) {
             for(JLabel boton:fila){
                 boton.setEnabled(false);
-                
+                boton.removeMouseListener(myListener);
             }
         }
     }
@@ -126,13 +134,7 @@ public class TresEnRaya{
                 boton.setEnabled(true);
                 boton.setText("");
                 boton.setBackground(Color.WHITE);
-                boton.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        actionPerformed(e);
-                        ((JLabel) e.getSource()).removeMouseListener(this);
-                    }
-                });
+                boton.addMouseListener(myListener);
             }
         }
         turnoJugador="X";
